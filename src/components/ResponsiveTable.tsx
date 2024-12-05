@@ -1,3 +1,5 @@
+import React, { useEffect } from "react";
+import { useAssetStore } from "@/lib/assetStore"; // Importa o store Zustand
 import { Edit, Trash2 } from "lucide-react";
 import {
   Table,
@@ -25,7 +27,7 @@ interface Item {
 }
 
 interface ResponsiveTableProps {
-  items: Item[];
+  items: Item[]; // Adiciona 'items' como propriedade esperada
   onEdit: (id: string) => void;
   onDelete: (id: string) => void;
 }
@@ -46,10 +48,23 @@ const getStatusBadge = (status: string) => {
 };
 
 const ResponsiveTable: React.FC<ResponsiveTableProps> = ({
-  items,
   onEdit,
   onDelete,
 }) => {
+  const { assets, fetchAssets, loading, error } = useAssetStore();
+
+  useEffect(() => {
+    fetchAssets();
+  }, [fetchAssets]);
+
+  if (loading) {
+    return <div>Carregando...</div>;
+  }
+
+  if (error) {
+    return <div>Erro ao carregar dados: {error}</div>;
+  }
+
   return (
     <div className="overflow-x-auto">
       <Table>
@@ -78,7 +93,7 @@ const ResponsiveTable: React.FC<ResponsiveTableProps> = ({
           </TableRow>
         </TableHeader>
         <TableBody>
-          {items.map((item) => (
+          {assets.map((item) => (
             <TableRow key={item.id}>
               <TableCell className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
                 {item.codigo}
