@@ -32,6 +32,16 @@ interface ResponsiveTableProps {
   onDelete: (id: string) => void;
 }
 
+// Função utilitária para formatar data
+const formatDate = (dateString: string) => {
+  const date = new Date(dateString);
+  return date.toLocaleDateString("pt-BR", {
+    day: "2-digit",
+    month: "2-digit",
+    year: "numeric",
+  });
+};
+
 const getStatusBadge = (status: string) => {
   switch (status) {
     case "Ativo":
@@ -111,7 +121,7 @@ const ResponsiveTable: React.FC<ResponsiveTableProps> = ({
                 })}
               </TableCell>
               <TableCell className="px-2 py-4 whitespace-nowrap text-sm text-gray-500">
-                {item.dataAquisicao}
+                {formatDate(item.dataAquisicao)}
               </TableCell>
               <TableCell className="px-2 py-4 whitespace-nowrap text-sm text-gray-500">
                 {item.vidaUtil} anos

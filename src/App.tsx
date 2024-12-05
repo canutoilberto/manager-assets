@@ -113,6 +113,7 @@ export default function App() {
         onClose={() => setIsAddModalOpen(false)}
         onSubmit={handleAddItem}
         title="Adicionar Item"
+        initialData={null}
       />
 
       <ItemModal
